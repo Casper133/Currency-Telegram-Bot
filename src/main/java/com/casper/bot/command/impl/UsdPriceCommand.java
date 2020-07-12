@@ -2,7 +2,10 @@ package com.casper.bot.command.impl;
 
 import static java.lang.String.format;
 
+import com.casper.bot.api.BankApiFacade;
+import com.casper.bot.api.NationalBankApi;
 import com.casper.bot.command.Command;
+import com.casper.bot.dto.CurrencyPriceDto;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +25,14 @@ public class UsdPriceCommand implements Command {
   @SneakyThrows
   public void execute() {
     log.info("UsdPriceCommand execute() in chat with id {}", chatId);
+    BankApiFacade bankApiFacade = new NationalBankApi();
+    bankApiFacade.loadUsdPrice(this::handleLoadPriceResponse);
+  }
 
-    // TODO: Get price from API
-    double price = 0.0;
-
+  @SneakyThrows
+  private void handleLoadPriceResponse(CurrencyPriceDto currencyPriceDto) {
+    log.info("Successful loadUsdPrice() call to bank API, chat id == {}", chatId);
+    double price = currencyPriceDto.getPrice();
     bot.execute(
         new SendMessage()
             .setChatId(chatId)
