@@ -1,4 +1,4 @@
-package com.casper.bot.property;
+package com.casper.bot.config;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
