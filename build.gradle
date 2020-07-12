@@ -1,15 +1,22 @@
 plugins {
-    id "java"
-    id "application"
+  id "java"
+  id "application"
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
+  implementation "org.telegram:telegrambots:$telegramBotsVersion"
+  implementation "org.slf4j:slf4j-api:$loggingVersion"
+  implementation "org.slf4j:slf4j-simple:$loggingVersion"
+
+  compileOnly "org.projectlombok:lombok:$lombokVersion"
+  annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }
 
 application {
-    mainClassName = "com.casper.currencybot.CurrencyTelegramBotApp"
+  mainClassName = "com.casper.bot.Application"
+  applicationDefaultJvmArgs = ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
 }
