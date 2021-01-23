@@ -4,8 +4,8 @@ import com.casper.bot.command.CommandInvoker;
 import com.casper.bot.config.BotProperties;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Slf4j
 public class Application {
@@ -21,8 +21,7 @@ public class Application {
 
   @SneakyThrows
   private static void initBot() {
-    ApiContextInitializer.init();
-    TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+    TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
     BotProperties botProperties = new BotProperties();
     CommandInvoker commandInvoker = new CommandInvoker();
     telegramBotsApi.registerBot(new CurrencyBot(botProperties, commandInvoker));

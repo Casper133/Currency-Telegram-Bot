@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Slf4j
@@ -26,10 +27,12 @@ public class BotInfoCommand implements Command {
     log.info("BotInfoCommand execute() in chat with id {}", chatId);
 
     bot.execute(
-        new SendMessage()
-            .setChatId(chatId)
-            .setText(INFO_MESSAGE)
-            .enableHtml(true)
+        SendMessage
+            .builder()
+            .chatId(chatId.toString())
+            .text(INFO_MESSAGE)
+            .parseMode(ParseMode.HTML)
+            .build()
     );
   }
 

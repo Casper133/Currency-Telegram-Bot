@@ -1,25 +1,25 @@
 plugins {
-  id "java"
-  id "application"
+    id "java"
+    id "application"
 }
 
 repositories {
-  mavenCentral()
+    jcenter()
 }
 
 dependencies {
-  implementation "org.telegram:telegrambots:$telegramBotsVersion"
-  implementation "org.slf4j:slf4j-api:$loggingVersion"
-  implementation "org.slf4j:slf4j-simple:$loggingVersion"
-  implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-  implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
+    implementation "org.telegram:telegrambots:$telegramBotsVersion"
+    implementation "org.slf4j:slf4j-api:$loggingVersion"
+    implementation "org.slf4j:slf4j-simple:$loggingVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
 
-  compileOnly "org.projectlombok:lombok:$lombokVersion"
-  annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }
 
 application {
-  mainClassName = "com.casper.bot.Application"
-  applicationDefaultJvmArgs = ["--add-opens", "java.base/java.lang=ALL-UNNAMED",
-                               "--add-opens", "java.base/java.lang.invoke=ALL-UNNAMED"]
+    mainClassName = "com.casper.bot.Application"
+    applicationDefaultJvmArgs = ["--add-opens", "java.base/java.lang=ALL-UNNAMED",
+                                 "--add-opens", "java.base/java.lang.invoke=ALL-UNNAMED"]
 }

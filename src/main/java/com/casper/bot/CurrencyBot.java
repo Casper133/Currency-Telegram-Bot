@@ -57,9 +57,11 @@ public class CurrencyBot extends TelegramLongPollingBot {
 
     if (update.hasMessage()) {
       this.execute(
-          new SendMessage()
-              .setChatId(update.getMessage().getChatId())
-              .setText("Произошла ошибка. Попробуйте снова.")
+          SendMessage
+              .builder()
+              .chatId(update.getMessage().getChatId().toString())
+              .text("Произошла ошибка. Попробуйте снова.")
+              .build()
       );
     }
   }

@@ -11,6 +11,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import retrofit2.Response;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,17 +27,28 @@ public class UsdPriceCommand implements Command {
   public void execute() {
     log.info("UsdPriceCommand execute() in chat with id {}", chatId);
     BankApiFacade bankApiFacade = new NationalBankApi();
-    bankApiFacade.loadUsdPrice(this::handleLoadPriceResponse);
+    Response<CurrencyPriceDto> response = bankApiFacade.loadUsdPrice();
+
+    if (!response.isSuccessful() || response.body() == null) {
+      log.error("loadUsdPrice() call error: {}", response.errorBody());
+      return;
+    }
+
+    CurrencyPriceDto currencyPriceDto = response.body();
+    handleLoadPriceResponse(currencyPriceDto);
   }
 
   @SneakyThrows
   private void handleLoadPriceResponse(CurrencyPriceDto currencyPriceDto) {
     log.info("Successful loadUsdPrice() call to bank API, chat id == {}", chatId);
     double price = currencyPriceDto.getPrice();
+
     bot.execute(
-        new SendMessage()
-            .setChatId(chatId)
-            .setText(format(MESSAGE_FORMAT, price))
+        SendMessage
+            .builder()
+            .chatId(chatId.toString())
+            .text(format(MESSAGE_FORMAT, price))
+            .build()
     );
   }
 
